@@ -85,7 +85,7 @@ def get_estimate(sec_lvl):
     delta_bnd = (approx_svp_norm / normdeterminant )^(1./(dim-1))
     for b in range(200,dim+1):
         if delta(b) <= delta_bnd:
-            print("Lat1", sec_lvl, approx_svp_norm / gh, b)
+            print("{0:10} {1:15} {2:.8f} {3:15}".format("Lat1", str(sec_lvl), approx_svp_norm / gh, str(b)))
             break
 
     # estimate leaked lattice
@@ -101,10 +101,11 @@ def get_estimate(sec_lvl):
     for b in range(100, n, 1):
         prob = u_SVP_prob(b, dim, usvp_norm/normdeterminant, kissing_number)
         if prob > 0.99:
-            print("Lat2", sec_lvl, gh_rat, b, prob)
+            print("{0:10} {1:15} {2:.8f} {3:15}".format("Lat2", str(sec_lvl), gh_rat, str(b)))
             return dim, b, prob
 
 estimates = []
+print("{0:10} {1:15} {2:10} {3:15}".format("lattice", "security Level", "norm / gh", "blocksize"))
 for cat in [1,3,5]:
     dim, beta, prob = get_estimate(cat)
     estimates += [(cat, dim, beta)]

@@ -7,6 +7,10 @@ import sys
 import time
 from params import get_fuleeca_parameters
 
+# Loads the samples from a signature file
+# The secret key and each signature consists of two vectors (v,w)
+# This function assumes these are stored on two consecutive lines in the comma-separated file'
+# The file starts with the secret key, followed by any number of signatures
 def load_samples(file, q, n_half, sigs=None):
     print("Loading signatures...")
     if sigs is None:
@@ -133,7 +137,11 @@ def get_solution_or_averaging(a_approx, V_samples, a_nrm, statistics):
     avg_a /= sigs
     return avg_a, solved, a_sol
 
-
+# This function runs the learning attack
+# Input parameters:
+# file: location of file with signatures
+# cat:  security level [1,3,5]
+# sigs: number of signatures used (<= #signatures in file)
 def attack(file, cat=1, sigs=None):
     statistics = {
         "a_dist_singular_value": None,
