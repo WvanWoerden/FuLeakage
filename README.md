@@ -46,7 +46,7 @@ git clone https://github.com/malb/lattice-estimator.git
 cp -r lattice-estimator/estimator FuLeakage/estimates/
 cd FuLeakage/estimates
 sage estimate_reduction.sage
-sage estaimte_bitcost.sage
+sage estimate_bitcost.sage
 ```
 
 The script `estimates/estimate_reduction.sage` computes the required BKZ blocksize for all three parameter sets for the full construction-A lattice and the leaked sublattice. 
