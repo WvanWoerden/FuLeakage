@@ -12,9 +12,9 @@ test -f cat1_sigs.tar.gz || wget -O cat1_sigs.tar.gz "https://zenodo.org/records
 test -f cat3_sigs.tar.gz || wget -O cat3_sigs.tar.gz "https://zenodo.org/records/10653492/files/cat3_sigs.tar.gz?download=1"
 test -f cat5_sigs.tar.gz || wget -O cat5_sigs.tar.gz "https://zenodo.org/records/10653492/files/cat5_sigs.tar.gz?download=1"
 
-echo "Unpacking signature files"
-test -f cat1_sigs.txt || tar -xf cat1_sigs.tar.gz
-test -f cat3_sigs.txt || tar -xf cat3_sigs.tar.gz
-test -f cat5_sigs.txt || tar -xf cat5_sigs.tar.gz
+echo "Unpacking signature files and deleting archives"
+test -f cat1_sigs.txt || tar -xf cat1_sigs.tar.gz && rm cat1_sigs.tar.gz 
+test -f cat3_sigs.txt || tar -xf cat3_sigs.tar.gz && rm cat3_sigs.tar.gz
+test -f cat5_sigs.txt || tar -xf cat5_sigs.tar.gz && rm cat5_sigs.tar.gz
 
 cd ../

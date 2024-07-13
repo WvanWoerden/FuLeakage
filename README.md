@@ -36,7 +36,13 @@ cd FuLeakage/attack
 ./2_run_attack.sh
 ```
 
+We supply a pre-computed set of signatures as generating enough signatures takes much longer than running the attack. 
+These signatures were generated using the reference implementation of FuLeeca, available at [this GIT repository](https://gitlab.lrz.de/tueisec/fuleeca-signature) or in the [NIST submission](https://csrc.nist.gov/csrc/media/Projects/pqc-dig-sig/documents/round-1/submission-pkg/FuLeeca-submission.zip).
+
 ## Running the estimate scripts
+We provide scripts to estimate the required blocksize and bitcost for a BKZ attack on the full construction-A lattice and the leaked sublattice.
+Note that these are estimates for our heuristic sublattice attack given only a few signatures, and they are unrelated to our practical full learning attack.
+
 To run the estimate scripts clone or download this repository and move into the `estimates` folder.
 Make sure the lattice-estimator sage module is installed or that the `estimator` folder of the lattice-estimator is copied to the `estimates` folder.
 

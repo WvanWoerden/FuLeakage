@@ -1,4 +1,10 @@
 # Estimate lattice reduction attack on FuLeeca
+# This script computes the (heuristically) required BKZ blocksize
+# for a lattice-reduction attack on the full construction-A lattice
+# and on the leaked sublattice. 
+# The file estimate_bitcost.sage will give a bitcost for the blocksizes.
+# Note that these estimates are unrelated to the practical full learning
+# attack.
 
 from math import lgamma
 import numpy as np
@@ -104,8 +110,12 @@ def get_estimate(sec_lvl):
             print("{0:10} {1:15} {2:.8f} {3:15}".format("Lat2", str(sec_lvl), gh_rat, str(b)))
             return dim, b, prob
 
+print("BKZ blocksize estimates for a lattice-reduction attack on the full lattice (Lat1) and leaked sublattice (Lat2).")
+print("These attacks do not run in polynomial time, but only require a few signatures as opposed to the full learning attack.")
+print("Run estimate_bitcost.sage to obtain a bitcost estimate from these blocksizes.")
+
 estimates = []
-print("{0:10} {1:15} {2:10} {3:15}".format("lattice", "security Level", "norm / gh", "blocksize"))
+print("{0:10} {1:15} {2:10} {3:15}".format("lattice", "security level", "norm / gh", "blocksize"))
 for cat in [1,3,5]:
     dim, beta, prob = get_estimate(cat)
     estimates += [(cat, dim, beta)]
