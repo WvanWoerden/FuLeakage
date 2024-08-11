@@ -3,14 +3,12 @@
 import numpy as np
 import scipy as sc
 import scipy.linalg
-import sys
-import time
 from params import get_fuleeca_parameters
 
-# Loads the samples from a signature file
-# The secret key and each signature consists of two vectors (v,w)
-# This function assumes these are stored on two consecutive lines in the comma-separated file'
-# The file starts with the secret key, followed by any number of signatures
+# Loads the signature samples from a file.
+# The secret key and each signature consists of two vectors (v,w).
+# This function assumes these are stored on two consecutive lines in the comma-separated file.
+# The file starts with the secret key, followed by any number of signatures.
 def load_samples(file, q, n_half, sigs=None):
     print("Loading signatures...")
     if sigs is None:
@@ -49,15 +47,15 @@ def get_singular_value_guess(V):
     # precomputed values of E[x_i^2] obtained from 2,500,000 signatures
     d = np.loadtxt("data/D" + str(n_half) + ".txt")
     DD = sc.linalg.circulant(d)
-    # We know that on expectation E[VV] = A^t*D*A + E, for D = diag((E[x_i^2])_i).
-    # Where the (toric) diagonals of E are somewhat constant (but different per diagonal)
+    # We know that on expectation E[VV] = A^t*D*A + E, for D = diag((E[x_i^2])_i)
+    # where the (toric) diagonals of E are somewhat constant (but different per diagonal).
     # We thus get a set of approximate equations diag_j(E[VV]) ~= diag_j(A*D*A^t) + c_i
     # from which we can approximately derive the values of a_i * a_{i+j} + c_i' for all i.
     # These equations are of full rank (which would not be the case if D was constant),
     # we thus exploit the bias in the values of E[x_i^2].
-    # So we approximately obtain aa := a^t * a + C' with C' somewhat constant on each diagonal
+    # So we approximately obtain aa := a^t * a + C' with C' somewhat constant on each diagonal.
     # Now we extract (an approximation of) a by computing an optimal rank-1 approximation of aa,
-    # using the singular-value decomposition
+    # using the singular-value decomposition.
     print("Obtaining guess using singular-value decomposition...")
     aa = np.zeros((n_half, n_half), dtype="double")
     for j in range(n_half):
@@ -69,12 +67,11 @@ def get_singular_value_guess(V):
     return a_svd_guesses
 
 
-# get solution by selecting x_i from multiple signatures that are close to integer already
+# Gets a solution by selecting x_i from multiple signatures that are close to integer already.
 # not in use at the moment
 def get_solution_best_roundings(a_approx, V_samples, a_nrm, statistics):
     # recover from best roundings
     n_half = a_approx.shape[0]
-    sigs = V_samples.shape[0]
     Aguess = sc.linalg.circulant(a_approx).transpose()
     Aginv = np.linalg.inv(Aguess)
     X_approx = np.dot(V_samples, Aginv)
@@ -103,14 +100,14 @@ def get_solution_best_roundings(a_approx, V_samples, a_nrm, statistics):
     return a_exact, solved
 
 
-# This function tries to turn the approximate guess into a full solution by using the short signature vectors
-# Let A=circulant(a) be the real secret key, and A'=circulant(a_guess) the approximation.
+# This function tries to turn the approximate guess into a full solution by using the short signature vectors.
+# Let A = circulant(a) be the real secret key, and A' = circulant(a_guess) the approximation.
 # For each signature v = x * A we compute an approximation x' = (A')^(-1) * v
-# and round x'' = roundtoint(x')
-# if x==x'' then we can recover A by solving v = x'' * A for circulant A.
-# we check if x==x'' by checking that the solution A is (close to) integral and has the right norm
-# which is very unlikely to happen for x!=x''. 
-# if it fails it returns that average over all solutions A.
+# and round x'' = roundtoint(x').
+# If x == x'' then we can recover A by solving v = x'' * A for circulant A.
+# We check if x == x'' by checking that the solution A is (close to) integral and has the right norm
+# which is very unlikely to happen for x != x''.
+# If it fails it returns the average over all solutions A.
 def get_solution_or_averaging(a_approx, V_samples, a_nrm, statistics):
     n_half = a_approx.shape[0]
     sigs = V_samples.shape[0]
@@ -137,7 +134,7 @@ def get_solution_or_averaging(a_approx, V_samples, a_nrm, statistics):
     avg_a /= sigs
     return avg_a, solved, a_sol
 
-# This function runs the learning attack
+# This function runs the learning attack.
 # Input parameters:
 # file: location of file with signatures
 # cat:  security level [1,3,5]
@@ -162,7 +159,6 @@ def attack(file, cat=1, sigs=None):
     a_nrm = np.sqrt(squared_norm_key)  # l2 norm of typical a vec
 
     V_samples, a_vec, b_vec = load_samples(file, q, n_half, sigs)
-    sigs = V_samples.shape[0]
 
     # get absolute typical vec from a_vec to limit dependencies
     # could also load precomputed value as a_typical is fixed for each category

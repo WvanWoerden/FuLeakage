@@ -26,7 +26,7 @@ The script `estimate_bitcost.sage` assumes that the lattice-estimator is availab
 
 To run the attack clone or download this repository and move into the `attack` folder.
 First, execute `attack/1_download_sigs.sh` to download the signature samples.
-Note that the unpacked signature files take a total of about 6GB of disk space.
+Note that the unpacked signature files take a total of about 6 GB of disk space.
 Then, run `attack/2_run_attack.sh` to start the learning attack and see how instances of all FuLeeca parameter sets are broken in real time.
 
 ```
@@ -64,11 +64,11 @@ The script `estimates/estimate_bitcost.sage` takes these blocksize estimates and
 
 ```
 /attack                         # attack scripts
-/attack/data/D*.txt             # precomputed Avg[x_i^2].
+/attack/data/D*.txt             # precomputed Avg[x_i^2]
 /attack/full_attack.py          # main attack script
 /attack/run_attack.py           # helper script to run the attack
 /attack/1_download_sigs.sh      # shell script to download signatures
-/attack/2_run_attack.sh         # shell script that runs the attack
+/attack/2_run_attack.sh         # shell script to run the attack
 /attack/params.py               # FuLeeca parameters
 /attack/estimates               # estimation scripts
 /attack/estimate_reduction.sage # BKZ blocksize estimator
